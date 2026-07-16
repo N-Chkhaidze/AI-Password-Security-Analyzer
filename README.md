@@ -1,113 +1,86 @@
-# 🔐 AI Password Security Analyzer
+## Large-Scale Analysis Dataset (14M Passwords)
 
-A machine learning-based password strength classifier that predicts whether a password is **Weak**, **Medium**, or **Strong** using character-level TF-IDF features and Multinomial Logistic Regression.
+For large-scale password security analysis, the trained AI model was applied to a dataset containing **14+ million commonly used passwords**.
 
-Unlike traditional password meters that rely only on predefined rules, this project learns password patterns from a large labeled dataset.
+### Dataset Source
 
----
+Kaggle:
+https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
 
-## 📌 Overview
+The dataset is based on the **RockYou password list**, a widely used cybersecurity research dataset originating from the 2009 RockYou data breach.
 
-The model performs **3-class password strength classification**:
+It is commonly used for:
+- Password security research
+- Password pattern analysis
+- Machine learning experiments in cybersecurity
 
-| Label | Class |
-|---|---|
-| 0 | Weak |
-| 1 | Medium |
-| 2 | Strong |
+## Labeling Process
 
-The goal is to build an ML-based password analyzer capable of understanding character patterns and password complexity.
-
----
-
-## 📂 Dataset
-
-Dataset:
-
-**Password Strength Classifier Dataset**  
-https://www.kaggle.com/datasets/bhavikbb/password-strength-classifier-dataset/data
-
-The dataset contains:
-
-- Password samples
-- Strength labels (0, 1, 2)
-
-After preprocessing, the dataset contains approximately:
-
-```
-670,000+ password samples
-```
----
-
-## 🧠 Machine Learning Approach
+The original dataset does not contain password strength labels. Therefore, the trained machine learning model was used to automatically generate strength classifications.
 
 Pipeline:
 
-```
-Password
-   ↓
-Character Tokenization
-   ↓
-TF-IDF Vectorization
-   ↓
-Multinomial Logistic Regression
-   ↓
-Weak / Medium / Strong Prediction
-```
+14M Password Dataset
+        ↓
+Trained TF-IDF + Logistic Regression Model
+        ↓
+Predicted Strength Labels
+        ↓
+Confidence Score Analysis
 
-Instead of analyzing passwords as complete words, the model learns from individual character patterns.
+Generated labels:
+
+0 → Weak  
+1 → Medium  
+2 → Strong  
+
+For each password, the model generated:
+
+- Predicted strength category
+- Prediction confidence score
 
 Example:
 
-```
-password123
+| Password | Strength | Confidence |
+|----------|----------|------------|
+| 123456 | Weak | 99% |
+| password123 | Medium | 87% |
+| X7@k92Lm | Strong | 97% |
 
-↓
-['p','a','s','s','w','o','r','d','1','2','3']
-```
+## Analysis Results
 
----
+The model analyzed **14.3 million password samples**.
 
-## ⚙️ Technologies
+### Strength Distribution
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- TF-IDF
-- Logistic Regression
-- Joblib
+| Category | Number of Passwords | Percentage |
+|----------|---------------------|------------|
+| Weak (0) | 6,729,067 | 47.00% |
+| Medium (1) | 6,782,947 | 47.38% |
+| Strong (2) | 804,865 | 5.62% |
 
----
-## 📊 Performance
+### Prediction Confidence
 
-Test accuracy:
+Average confidence:
 
-```
-~84%
-```
+82.39%
 
-Classification performance:
+Median confidence:
 
-```
-              precision   recall   f1-score
+86.39%
 
-Weak            0.47      0.85      0.61
-Medium          0.96      0.81      0.88
-Strong          0.91      0.97      0.94
-```
+High-confidence predictions:
 
----
+1,325,485 passwords
 
-Generated files:
+with confidence above:
 
-```
-password_model.pkl
-vectorizer.pkl
-```
+99%
 
-## 👨‍💻 Author
+## Output Dataset
 
-**Nikoloz Chkhaidze**
+The generated labeled dataset contains:
 
-Machine Learning / AI Project
+- password
+- strength
+- confidence
