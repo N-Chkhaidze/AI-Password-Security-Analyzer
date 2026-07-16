@@ -1,86 +1,213 @@
-## Large-Scale Analysis Dataset (14M Passwords)
+# AI Password Security Analyzer
 
-For large-scale password security analysis, the trained AI model was applied to a dataset containing **14+ million commonly used passwords**.
+A machine learning-based password strength classifier that predicts whether a password is **Weak, Medium, or Strong** using **character-level TF-IDF features** and **Multinomial Logistic Regression**.
 
-### Dataset Source
+Unlike traditional password meters that rely only on predefined rules, this project learns password patterns from a large labeled dataset using machine learning.
 
-Kaggle:
-https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+---
 
-The dataset is based on the **RockYou password list**, a widely used cybersecurity research dataset originating from the 2009 RockYou data breach.
+# 📌 Overview
 
-It is commonly used for:
-- Password security research
-- Password pattern analysis
-- Machine learning experiments in cybersecurity
+The model performs **3-class password strength classification**:
 
-## Labeling Process
+| Label | Class |
+|------|------|
+| 0 | Weak |
+| 1 | Medium |
+| 2 | Strong |
 
-The original dataset does not contain password strength labels. Therefore, the trained machine learning model was used to automatically generate strength classifications.
+The goal is to build an ML-based password analyzer capable of understanding password structures and complexity patterns.
 
-Pipeline:
+---
 
-14M Password Dataset
-        ↓
-Trained TF-IDF + Logistic Regression Model
-        ↓
-Predicted Strength Labels
-        ↓
-Confidence Score Analysis
+# 📂 Dataset
 
-Generated labels:
+## Training Dataset
 
-0 → Weak  
-1 → Medium  
-2 → Strong  
+**Password Strength Classifier Dataset**
 
-For each password, the model generated:
+https://www.kaggle.com/datasets/bhavikbb/password-strength-classifier-dataset/data
 
-- Predicted strength category
-- Prediction confidence score
+The dataset contains:
+
+- Password samples
+- Strength labels (0, 1, 2)
+
+After preprocessing:
+
+- ~670,000 labeled password samples were used for training
+
+---
+
+# 🧠 Machine Learning Approach
+
+The complete pipeline:
+
+```
+Password
+    ↓
+Character-Level TF-IDF Vectorization
+    ↓
+Multinomial Logistic Regression
+    ↓
+Weak / Medium / Strong Prediction
+```
+
+Instead of manually creating features such as:
+
+- Password length
+- Number of digits
+- Number of symbols
+- Uppercase count
+
+the model automatically learns important character patterns from passwords.
 
 Example:
+
+```
+password123
+
+↓
+
+['p','a','s','s','w','o','r','d','1','2','3']
+```
+
+The TF-IDF representation allows the model to learn which character combinations are associated with weak or strong passwords.
+
+---
+
+# ⚙️ Technologies
+
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- TF-IDF Vectorization
+- Logistic Regression
+- Joblib
+
+---
+
+# 📊 Model Performance
+
+Test accuracy:
+
+```
+~84%
+```
+
+Classification report:
+
+```
+              precision   recall   f1-score
+
+Weak            0.47      0.85      0.61
+Medium          0.96      0.81      0.88
+Strong          0.91      0.97      0.94
+```
+
+Generated model files:
+
+```
+password_model.pkl
+vectorizer.pkl
+```
+
+---
+
+# 🚀 Large-Scale Password Labeling Extension
+
+After training the classifier, the model was applied to a much larger password corpus to generate machine-learning-based labels.
+
+## Dataset
+
+**Common Password List (rockyou.txt)**
+
+https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+
+The dataset originates from the historical RockYou password leak and contains more than **14 million commonly used passwords**.
+
+The original dataset contains passwords without strength labels.
+
+---
+
+# 🤖 Pseudo-Label Generation
+
+The trained model was used to automatically classify each password.
+
+For every password, the model generated:
+
+- Predicted strength label
+- Prediction confidence score
+
+The labeling process was performed using batch processing to efficiently handle millions of passwords.
+
+Example output:
 
 | Password | Strength | Confidence |
 |----------|----------|------------|
 | 123456 | Weak | 99% |
-| password123 | Medium | 87% |
-| X7@k92Lm | Strong | 97% |
+| password123 | Medium | 85% |
+| X7@k92Lm | Strong | 98% |
 
-## Analysis Results
+---
 
-The model analyzed **14.3 million password samples**.
+# 📈 14 Million Password Analysis Results
 
-### Strength Distribution
+Total passwords analyzed:
 
-| Category | Number of Passwords | Percentage |
-|----------|---------------------|------------|
+```
+14,316,879
+```
+
+Predicted distribution:
+
+| Strength | Count | Percentage |
+|----------|------:|-----------:|
 | Weak (0) | 6,729,067 | 47.00% |
 | Medium (1) | 6,782,947 | 47.38% |
 | Strong (2) | 804,865 | 5.62% |
 
-### Prediction Confidence
+---
 
-Average confidence:
+# 🎯 Prediction Confidence Analysis
 
-82.39%
+Average model confidence:
 
-Median confidence:
-
-86.39%
+```
+82.4%
+```
 
 High-confidence predictions:
 
+```
 1,325,485 passwords
+```
 
-with confidence above:
+(Confidence > 99%)
 
-99%
+This shows that a significant portion of predictions were classified with high certainty.
 
-## Output Dataset
+---
 
-The generated labeled dataset contains:
+# 📁 Large-Scale Analysis Output
 
-- password
-- strength
-- confidence
+Generated files:
+
+```
+14MIL-labeled-passwords.csv
+high_confidence_passwords.csv
+```
+
+Each labeled record contains:
+
+- Password
+- Predicted strength
+- Confidence score
+
+
+# 👨‍💻 Author
+
+**Nikoloz Chkhaidze**
+
+Machine Learning / AI Project
